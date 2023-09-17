@@ -50,14 +50,7 @@ export const Profile = ({ pubkey }: Props) => {
       <Header title="Profile" />
       <div className="flex-1 max-w-5xl mx-auto">
         <ProfileBanner banner={profile?.banner} />
-        {/* <div    
-          className={`w-full h-48 bg-center bg-no-repeat bg-cover `}
-          style={{
-            backgroundImage: `url(${
-              profile?.banner ?? 'https://picsum.photos/seed/picsum/1920/1080'
-            })`,
-          }}
-        ></div> */}
+
         <div className="flex items-center justify-between px-4 pt-4 z-50">
           <div className="-mt-24 w-max min-w-max z-40">
             <Avatar alt="profile" src={profile?.picture} size="xl" />

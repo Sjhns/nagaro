@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #000 !important;
+  /* color: #fff !important; */
+  color: #f5f5f5 !important;
+}
+
+.tab {
+  border-bottom: 2px solid transparent; /* Adiciona uma borda inferior transparente */
+  transition: border-bottom 0.3s ease; /* Adiciona uma transição suave */
+}
+
+.active-tab {
+  border-color: #3498db; /* Cor da borda inferior quando ativa */
+}
+
+/* Estilização da barra de rolagem */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #2a2a2a; /* Cor de fundo da barra de rolagem */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #504f4f; /* Cor do indicador da barra de rolagem */
+  border-radius: 5px;
+}
+
+/* ::-webkit-scrollbar-thumb:hover {
+    background-color: #aaa;  Cor do indicador ao passar o mouse 
+  } */

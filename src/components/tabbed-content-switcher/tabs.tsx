@@ -19,7 +19,9 @@ export const Tabs = ({
         }`}
         onClick={() => handleTabClick('publicacoes')}
       >
-        <span className="text-gray-200 text-sm font-semibold">Publicações</span>
+        <span className="text-gray-200 text-sm font-semibold text-center">
+          Publicações
+        </span>
         <span className="text-gray-500 text-sm font-semibold">
           {totalPublications}
         </span>
@@ -33,7 +35,7 @@ export const Tabs = ({
         }`}
         onClick={() => handleTabClick('publicacoes-respostas')}
       >
-        <span className="text-gray-200 text-sm font-semibold">
+        <span className="text-gray-200 text-sm font-semibold text-center">
           Publicações e respostas
         </span>
         <span className="text-gray-500 text-sm font-semibold">0</span>
@@ -45,7 +47,9 @@ export const Tabs = ({
         }`}
         onClick={() => handleTabClick('gostei')}
       >
-        <span className="text-gray-200 text-sm font-semibold">Gostei</span>
+        <span className="text-gray-200 text-sm font-semibold text-center">
+          Gostei
+        </span>
         <span className="text-gray-500 text-sm font-semibold">0</span>
       </div>
     </div>

@@ -3,7 +3,7 @@ import { NostrSingleton } from '@/infra/providers/pool-singleton'
 
 export type User =
   | {
-      pubkey: string
+      npub: string
       name?: string | undefined
       username?: string | undefined
       display_name?: string | undefined

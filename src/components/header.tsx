@@ -1,6 +1,5 @@
 'use client'
 
-import { HiArrowLeft } from 'react-icons/hi'
 import { useRouter } from 'next/navigation'
 
 type HeaderProps = {
@@ -40,7 +39,6 @@ export const Header = ({ title, hideBackButton = false }: HeaderProps) => {
               clip-rule="evenodd"
             ></path>
           </svg>
-          {/* <HiArrowLeft /> */}
         </span>
       )}
 

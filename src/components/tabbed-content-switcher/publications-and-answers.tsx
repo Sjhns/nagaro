@@ -29,7 +29,7 @@ export const PublicationsAndAnswers = ({
 
         {!events.length && (
           <div className="flex items-center justify-center w-full h-96">
-            <span className="text-gray-500 text-xl">
+            <span className="text-gray-500 text-xl text-center">
               Você ainda não respondeu nenhuma publicação
             </span>
           </div>

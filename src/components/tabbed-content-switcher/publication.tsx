@@ -27,7 +27,7 @@ export const Publication = ({ events }: PublicationProps) => {
 
         {!events.length && (
           <div className="flex items-center justify-center w-full h-96">
-            <span className="text-gray-500 text-xl">
+            <span className="text-gray-500 text-xl text-center">
               Nenhuma publicação encontrada
             </span>
           </div>

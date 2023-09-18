@@ -1,6 +1,4 @@
 import Link from 'next/link'
-import { SearchBox } from './search-box'
-import { ArticleCard } from './article-card'
 
 type Article = {
   source: {

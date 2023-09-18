@@ -11,19 +11,31 @@ import { BsInfoCircle } from 'react-icons/bs'
 import Link from 'next/link'
 import { BiLogOutCircle } from 'react-icons/bi'
 import { useRouter } from 'next/navigation'
-import { useContext } from 'react'
-import { GlobalContext } from '@/functions/context'
+import { useState } from 'react'
+// import { GlobalContext } from '@/functions/context'
 
 export const Menu = () => {
   const { refresh } = useRouter()
-  const { user } = useContext(GlobalContext)
+  const [activeAba, setActiveAba] = useState('')
 
-  const handleLogout = async () => {
-    await fetch('http://localhost:3000/external/api', {
-      method: 'DELETE',
-    })
-    refresh()
+  const handleActiveAba = (aba: string) => {
+    setActiveAba(aba)
   }
+
+  // const { user } = useContext(GlobalContext)
+  const user = {
+    pubkey: '2c54e621ece4ffdba085b70efd20d436b688b0f9f3e7bcfcac7a301805412087',
+    name: 'Johnson',
+    picture: '2c54e621ece4ffdba085b70efd20d436b688b0f9f3e7bcfcac7a301805412087',
+    display_name: 'Johnson',
+  }
+
+  // const handleLogout = async () => {
+  //   await fetch('http://localhost:3000/external/api', {
+  //     method: 'DELETE',
+  //   })
+  //   refresh()
+  // }
 
   const items = [
     {
@@ -31,12 +43,15 @@ export const Menu = () => {
       icon: <AiOutlineHome className="text-white text-2xl" />,
       title: 'Home',
       url: '/global',
+
+      onClick: () => handleActiveAba('home'),
     },
     {
       id: 2,
       icon: <CiSearch className="text-white text-2xl " />,
       title: 'Search',
       url: '/search',
+      onClick: () => handleActiveAba('search'),
     },
     {
       id: 3,
@@ -44,18 +59,21 @@ export const Menu = () => {
       title: 'Mensagens',
 
       url: '/messages',
+      onClick: () => handleActiveAba('messages'),
     },
     {
       id: 4,
       icon: <AiOutlineSetting className="text-white text-2xl" />,
       title: 'Configurações',
       url: '/settings',
+      onClick: () => handleActiveAba('settings'),
     },
     {
       id: 5,
       icon: <BsInfoCircle className="text-white text-2xl" />,
       title: 'Sobre',
       url: '/about',
+      onClick: () => handleActiveAba('about'),
     },
   ]
 
@@ -71,10 +89,18 @@ export const Menu = () => {
 
       <ul className="space-y-5">
         {items.map((item) => (
-          <li key={item.id}>
+          <li key={item.id} onClick={item.onClick}>
             <Link
               href={item.url ?? ''}
-              className="flex items-center gap-x-3 px-4 py-2.5 hover:bg-[#ffffff1a] hover:rounded-full w-max hover:cursor-pointer"
+              className={`flex items-center gap-x-3 px-4 py-2.5 
+              hover:bg-[#ffffff1a] hover:rounded-full w-max 
+              hover:cursor-pointer
+              ${
+                activeAba === item.title.toLowerCase()
+                  ? 'bg-[#ffffff1a] rounded-full'
+                  : ''
+              }
+                `}
             >
               {item.icon}
               {item.title}
@@ -84,7 +110,7 @@ export const Menu = () => {
 
         <li
           className="flex items-center gap-x-3 px-4 py-2.5 hover:bg-[#ffffff1a] hover:rounded-full w-max hover:cursor-pointer"
-          onClick={handleLogout}
+          // onClicçk={handleLogout}
         >
           <BiLogOutCircle className="text-white text-2xl" />
           Sair

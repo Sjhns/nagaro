@@ -1,54 +1,54 @@
 import { formatTimeAgoTypeNumber } from '@/utils/dateUtils'
 import { Avatar } from '@/components/avatar'
 import Link from 'next/link'
-import { BodyPost } from '../../../note/body-note'
-import { FooterPost } from '../../../note/footer-note'
+import { BodyNote } from './note/body-note'
+import { FooterNote } from './note/footer-note'
 
-type ResponseEventProps = {
+type Props = {
   name: string | undefined
   avatar: string | undefined
   time: number
   content: string
   likes: number
-  comments: number | undefined
+  answers: number | undefined
   shares: number
   id: string
   pubkey: string
-  tags?: string[]
+  tags?: string[][]
 }
 
-export const ResponseEvent = ({
+export const AnswerNote = ({
   name,
   avatar,
   content,
   id,
   time,
-  comments,
+  answers,
   likes,
   pubkey,
   shares,
-}: ResponseEventProps) => {
+}: Props) => {
   return (
     <div
       className="cursor-pointer transition-all ease-in-out duration-200 hover:bg-white-hover-transparent flex w-full px-3 py-3.5 border-b border-divider-color
           hover:cursor-pointer"
     >
       <div className="w-full ml-3.5">
-        <ResponseEventHeader
+        <AnswerNoteHeader
           name={name}
           avatar={avatar}
           time={time}
           pubkey={pubkey}
         />
 
-        <BodyPost content={content} id={id} />
-        <FooterPost likes={likes} comments={comments ?? 0} shares={shares} />
+        <BodyNote content={content} id={id} />
+        <FooterNote likes={likes} answers={answers ?? 0} shares={shares} />
       </div>
     </div>
   )
 }
 
-const ResponseEventHeader = ({
+const AnswerNoteHeader = ({
   name,
   avatar,
   time,

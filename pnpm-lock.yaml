@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@cmdcode/use-nostr':
+    specifier: ^0.1.1
+    version: 0.1.1(react@18.2.0)(typescript@5.2.2)
   '@types/node':
     specifier: 20.6.2
     version: 20.6.2
@@ -32,6 +35,9 @@ dependencies:
   next:
     specifier: 13.4.19
     version: 13.4.19(react-dom@18.2.0)(react@18.2.0)
+  nostr-hooks:
+    specifier: ^1.8.1
+    version: 1.8.1(@types/react@18.2.21)(typescript@5.2.2)
   nostr-react:
     specifier: ^0.7.0
     version: 0.7.0(react@18.2.0)(typescript@5.2.2)
@@ -78,6 +84,31 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.14.0
+
+  /@cmdcode/buff@2.0.2:
+    resolution: {integrity: sha512-CRYjrhCqcj04iGERQEzPQWhlZQcFO1QM0y+O23ga3/ftB974c2saTdQ6VJNG+OqaV9y+HC7ctQa21PBFRQlT1g==}
+    dev: false
+
+  /@cmdcode/crypto-tools@2.4.10:
+    resolution: {integrity: sha512-2vNLhqsir9oS7FGmi1iBfdFSLMVbZ/JEawLxNVxKE9s3fRxjz8AFjur9AjG4ae7rDjK0/nsJUjeCj6aFAZUT7g==}
+    dependencies:
+      '@cmdcode/buff': 2.0.2
+      '@noble/curves': 1.1.0
+      '@noble/hashes': 1.3.1
+    dev: false
+
+  /@cmdcode/use-nostr@0.1.1(react@18.2.0)(typescript@5.2.2):
+    resolution: {integrity: sha512-7IxtzLPeR6QKrZ+IisCb5nhIQqtgm0vnGS06uk3QtFAdhsjrI42PqgbIWSrANTanHrBjLE69BnA+4EvnkcD2pw==}
+    peerDependencies:
+      react: ^18.2.0
+    dependencies:
+      '@cmdcode/buff': 2.0.2
+      '@cmdcode/crypto-tools': 2.4.10
+      nostr-tools: 1.15.0(typescript@5.2.2)
+      react: 18.2.0
+    transitivePeerDependencies:
+      - typescript
+    dev: false
 
   /@eslint-community/eslint-utils@4.4.0(eslint@8.49.0):
     resolution: {integrity: sha512-1/sA4dwrzBAyeUoQ6oxahHKmrZvsnLCg4RfxW3ZFGGmQkSNQPFNLV9CUEFQP1x9EYXHTo5p6xdhZM1Ne9p/AfA==}
@@ -2120,6 +2151,10 @@ packages:
   /lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
 
+  /lodash@4.17.21:
+    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+    dev: false
+
   /loose-envify@1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
     hasBin: true
@@ -2244,6 +2279,19 @@ packages:
   /normalize-range@0.1.2:
     resolution: {integrity: sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==}
     engines: {node: '>=0.10.0'}
+    dev: false
+
+  /nostr-hooks@1.8.1(@types/react@18.2.21)(typescript@5.2.2):
+    resolution: {integrity: sha512-g6lf0WmCSwmg/vGx2GbbJazJPKFUJSCOqVX5PGf0jSf78wsmN1bX7jh53GQdqyB0QWunXNjh23iVT2IWsxPG4A==}
+    dependencies:
+      lodash: 4.17.21
+      nostr-tools: 1.15.0(typescript@5.2.2)
+      react: 18.2.0
+      zustand: 4.4.1(@types/react@18.2.21)(react@18.2.0)
+    transitivePeerDependencies:
+      - '@types/react'
+      - immer
+      - typescript
     dev: false
 
   /nostr-react@0.7.0(react@18.2.0)(typescript@5.2.2):
@@ -3048,6 +3096,14 @@ packages:
     dependencies:
       punycode: 2.3.0
 
+  /use-sync-external-store@1.2.0(react@18.2.0):
+    resolution: {integrity: sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: false
@@ -3128,4 +3184,24 @@ packages:
 
   /zod@3.21.4:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
+    dev: false
+
+  /zustand@4.4.1(@types/react@18.2.21)(react@18.2.0):
+    resolution: {integrity: sha512-QCPfstAS4EBiTQzlaGP1gmorkh/UL1Leaj2tdj+zZCZ/9bm0WS7sI2wnfD5lpOszFqWJ1DcPnGoY8RDL61uokw==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      '@types/react': '>=16.8'
+      immer: '>=9.0'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      immer:
+        optional: true
+      react:
+        optional: true
+    dependencies:
+      '@types/react': 18.2.21
+      react: 18.2.0
+      use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false

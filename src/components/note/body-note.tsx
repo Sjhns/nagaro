@@ -24,19 +24,25 @@ export const BodyNote = ({ content, tags, id }: BodyNoteProps) => {
   const { imageLinks, otherLinks, videoLinks } = extractImagesFromLinks(links)
   const textWithoutLinks = removeLinksFromText(content, links)
 
+  const isDetailsNote = path === `/d/${id}`
   const handlePostDetails = () => {
-    if (path === `/details/${id}`) {
+    if (isDetailsNote) {
       return
     }
 
-    push(`/details/${id}`)
+    push(`/d/${id}`)
   }
 
   return (
     <>
       <div className="mt-2">
         <p
-          className="break-words text-gray-200 text-base max-w-2xl hover:cursor-pointer"
+          className={`break-words text-gray-200 text-base max-w-2xl
+          ${
+            isDetailsNote
+              ? 'cursor-default'
+              : 'hover:cursor-pointer hover:underline'
+          }`}
           onClick={handlePostDetails}
         >
           {textWithoutLinks}

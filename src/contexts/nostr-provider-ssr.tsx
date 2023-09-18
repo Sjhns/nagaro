@@ -1,18 +1,33 @@
-'use client'
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable spaced-comment */
 
-import { NostrProvider } from 'nostr-react'
+'use client'
+import { NostrProvider as NostrProviderFromNostrReact } from 'nostr-react'
+//@ts-ignore
+import { NostrProvider as NostrProviderFromUseNostr } from '@cmdcode/use-nostr'
 
 type Props = {
   children: React.ReactNode
   relayUrls: string[]
 }
 
-export const NostrProviderSSR = ({ children, relayUrls }: Props) => {
+export const NostrProviderFromNostrReactSSR = ({
+  children,
+  relayUrls,
+}: Props) => {
   return (
     <>
-      <NostrProvider relayUrls={relayUrls} debug={true}>
+      <NostrProviderFromNostrReact relayUrls={relayUrls} debug={true}>
         {children}
-      </NostrProvider>
+      </NostrProviderFromNostrReact>
+    </>
+  )
+}
+
+export const NostrProviderFromUseNostrSSR = ({ children }: Partial<Props>) => {
+  return (
+    <>
+      <NostrProviderFromUseNostr>{children}</NostrProviderFromUseNostr>
     </>
   )
 }

@@ -9,7 +9,7 @@ type NotaProps = {
   time: number
   content: string
   likes: number
-  answers: number | undefined
+  answers?: number | undefined
   shares: number
   id: string
   pubkey: string

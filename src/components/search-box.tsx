@@ -1,10 +1,20 @@
 import { FiSearch } from 'react-icons/fi'
 
-export const SearchBox = () => {
+type Props = {
+  size?: 'sm' | 'md' | 'lg'
+}
+
+export const SearchBox = ({ size = 'sm' }: Props) => {
+  const sizeList = {
+    sm: 'h-9',
+    md: 'h-10',
+    lg: 'h-12',
+  }
+
   return (
     <div
-      className="flex w-full items-center justify-center 
-        bg-[#2727279e] px-3 rounded-full h-9"
+      className={`flex w-full items-center justify-center 
+        bg-[#2727279e] px-3 rounded-full ${sizeList[size]}`}
     >
       <FiSearch className="text-gray-700 text-lg mr-2" />
       <input

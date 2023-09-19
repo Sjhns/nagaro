@@ -8,8 +8,9 @@ export default async function Page({ params }: { params: { key: string } }) {
     <div className="flex w-full min-h-screen">
       <div className="flex-1">
         <Header title={`Buscar por ${key}`} />
-        <SearchList hashTags={String(key)} />
+        <SearchList hashTag={String(key)} />
       </div>
+
       <Sidebar />
     </div>
   )

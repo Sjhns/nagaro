@@ -3,20 +3,69 @@ import { AnswerNote } from '@/components/answer'
 import { Header } from '@/components/header'
 import { Note } from '@/components/note'
 import { Sidebar } from '@/components/sidebar'
-import { useNostrEvents } from 'nostr-react'
+import { EventMetadata } from '@/functions/get-events-from-user'
+import { sortByDescendingDate } from '@/utils/sortByDescendingDate'
+import { useNostrEvents, useProfile } from 'nostr-react'
 
 export default function Page({ params }: { params: { id: string } }) {
   const { id } = params
 
-  const { events } = useNostrEvents({
+  //  Obter o evento e o perfil do autor
+  const { events, isLoading: isLoadingEvent } = useNostrEvents({
     filter: {
       ids: [id],
-      since: 0,
       kinds: [1],
     },
   })
 
+  // if (isLoadingEvent) {
+  //   return <div>Carregando...</div>
+  // }
   const event = events?.[0]
+
+  // const ownProfile = {} as any
+  const { data: ownProfile } = useProfile({
+    pubkey: event?.pubkey ?? '',
+  })
+
+  // Obter as respostas e os perfis dos autores das respostas
+
+  const { events: allAnswersEvents } = useNostrEvents({
+    filter: {
+      kinds: [1],
+      '#e': [event?.id],
+      '#p': [event?.pubkey],
+    },
+  })
+
+  const firstsTenAnswers = allAnswersEvents.slice(0, 10)
+
+  const extractPubkey = firstsTenAnswers.map((e) => e.pubkey)
+
+  const { events: profiles, isLoading: isLoadingProfile } = useNostrEvents({
+    filter: {
+      authors: extractPubkey,
+      kinds: [0],
+    },
+  })
+
+  const answers = firstsTenAnswers.map((e): EventMetadata => {
+    const data = profiles.find((a) => a.pubkey === e.pubkey)
+
+    if (!data) {
+      return {
+        ...e,
+        author: undefined,
+      }
+    }
+
+    const author = JSON.parse(data.content)
+
+    return {
+      ...e,
+      author,
+    } as EventMetadata
+  })
 
   return (
     <div className="flex w-full min-h-screen">
@@ -28,36 +77,32 @@ export default function Page({ params }: { params: { id: string } }) {
             key={event.id}
             id={event.id}
             pubkey={event.pubkey}
-            avatar=""
-            name=""
-            // name={event.author?.name ?? event.author?.display_name}
-            // avatar={event.author?.picture}
+            name={ownProfile?.name ?? ownProfile?.display_name}
+            avatar={ownProfile?.picture}
             time={event.created_at}
             content={event.content}
             likes={0}
-            // answers={event.comments}
+            answers={answers.length}
             shares={0}
             tags={event.tags}
           />
         )}
-        {/*
-        {eventDetails.responses?.map((response) => (
+
+        {answers.map((answer) => (
           <AnswerNote
-            key={response.id}
-            id={response.id}
-            pubkey={response.pubkey}
-            name={response.author?.name ?? response.author?.display_name}
-            avatar={response.author?.picture}
-            time={response.created_at}
-            content={response.content}
+            key={answer.id}
+            id={answer.id}
+            pubkey={answer.pubkey}
+            name={answer.author?.name ?? answer.author?.display_name}
+            avatar={answer.author?.picture}
+            time={answer.created_at}
+            content={answer.content}
             likes={0}
-            answers={response.comments}
+            answers={0}
             shares={0}
-            tags={eventDetails.tags
-              .filter((t) => t[0] === 't')
-              .map((t) => t[1])}
-          /> 
-         ))} */}
+            tags={answer.tags}
+          />
+        ))}
       </div>
 
       {/* <Sidebar /> */}

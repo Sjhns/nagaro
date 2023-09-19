@@ -59,51 +59,6 @@ export const Sidebar = async () => {
                   />
                 </Link>
               </li>
-
-              // <li
-              //   key={post}
-              //   className="border-b border-white-transparent p-3 flex"
-              // >
-              //   <Avatar
-              //     src="https://randomuser.me/api/portraits/women/58.jpg"
-              //     alt="Avatar"
-              //     size="sm"
-              //   />
-
-              //   <div className="flex w-full flex-col ml-3">
-              //     <div className="flex items-center w-full">
-              //       <span className="text-gray-200 font-semibold text-sm">
-              //         Maria
-              //       </span>
-
-              //       <span className="mx-1">
-              //         <svg
-              //           xmlns="http://www.w3.org/2000/svg"
-              //           className="h-3 w-3 text-gray-600"
-              //           viewBox="0 0 20 20"
-              //           fill="currentColor"
-              //         >
-              //           <path
-              //             fillRule="evenodd"
-              //             d="M10 12a2 2 0 100-4 2 2 0 000 4z"
-              //             clipRule="evenodd"
-              //           />
-              //         </svg>
-              //       </span>
-              //       <span className="text-[11px] text-gray-600 font-semibold">
-              //         2h
-              //       </span>
-              //     </div>
-
-              //     <span className="line-clamp-2 text-[11px] text-gray-500">
-              //       Lorem ipsum dolor sit amet consectetur adipisicing
-              //       elit. Impedit iure voluptates et ab quae veritatis
-              //       sint mollitia soluta consequuntur voluptatibus debitis
-              //       assumenda explicabo distinctio, vero ipsam sunt
-              //       accusamus, porro blanditiis.
-              //     </span>
-              //   </div>
-              // </li>
             ))}
 
             <li>

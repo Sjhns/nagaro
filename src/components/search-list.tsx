@@ -43,8 +43,6 @@ export const SearchList = ({ hashTag }: Props) => {
     } as EventMetadata
   })
 
-  console.log(profiles)
-
   return (
     <div className="flex flex-col w-full min-h-screen">
       <div className="flex items-center border-b border-divider-color">

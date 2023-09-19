@@ -122,7 +122,9 @@ export const Menu = () => {
         className="mt-auto flex items-center space-x-2 px-5 py-2 hover:bg-[#ffffff1a] hover:rounded-full w-max"
       >
         <img
-          src={user.picture ?? `https://api.dicebear.com/7.x/identicon/svg`}
+          src={
+            'https://imgproxy.iris.to/insecure/rs:fill:256:256/plain/https://cdn.nostr.build/i/531d37b69a891e5f38096c217ddf82f72890eeffb29b1706be79c49a3bc2eaaa.jpg'
+          }
           alt="Logo"
           role="img"
           width={32}

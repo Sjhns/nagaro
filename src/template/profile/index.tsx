@@ -3,7 +3,6 @@
 import { Avatar } from '@/components/avatar'
 import { Header } from '@/components/header'
 import { ProfileBanner } from '@/components/profile-banner'
-import { Sidebar } from '@/components/sidebar'
 import { TabbedContentSwitcher } from '@/components/tabbed-content-switcher'
 import { ToolsBoxProfile } from '@/components/tools-box-profile'
 import Link from 'next/link'

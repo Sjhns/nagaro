@@ -49,31 +49,31 @@ export const Menu = () => {
     {
       id: 2,
       icon: <CiSearch className="text-white text-2xl " />,
-      title: 'Search',
+      title: 'Pesquisar',
       url: '/search',
-      onClick: () => handleActiveAba('search'),
+      onClick: () => handleActiveAba('pesquisar'),
     },
     {
       id: 3,
       icon: <AiOutlineMessage className="text-white text-2xl" />,
       title: 'Mensagens',
 
-      url: '/messages',
-      onClick: () => handleActiveAba('messages'),
+      url: '/chat',
+      onClick: () => handleActiveAba('mensagens'),
     },
     {
       id: 4,
       icon: <AiOutlineSetting className="text-white text-2xl" />,
       title: 'Configurações',
       url: '/settings',
-      onClick: () => handleActiveAba('settings'),
+      onClick: () => handleActiveAba('configurações'),
     },
     {
       id: 5,
       icon: <BsInfoCircle className="text-white text-2xl" />,
       title: 'Sobre',
       url: '/about',
-      onClick: () => handleActiveAba('about'),
+      onClick: () => handleActiveAba('sobre'),
     },
   ]
 
@@ -91,7 +91,7 @@ export const Menu = () => {
         {items.map((item) => (
           <li key={item.id} onClick={item.onClick}>
             <Link
-              href={item.url ?? ''}
+              href={item.url}
               className={`flex items-center gap-x-3 px-4 py-2.5 
               hover:bg-[#ffffff1a] hover:rounded-full w-max 
               hover:cursor-pointer

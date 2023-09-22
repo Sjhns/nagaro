@@ -1,4 +1,4 @@
-import { formatTimeAgoTypeNumber } from '@/utils/dateUtils'
+import { formatTimeAgoTypeNumber } from '@/functions/dateUtils'
 import { Avatar } from '@/components/avatar'
 import Link from 'next/link'
 import { BodyNote } from './note/body-note'

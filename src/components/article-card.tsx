@@ -1,4 +1,4 @@
-import { formatTimeAgoTypeString } from '@/utils/dateUtils'
+import { formatTimeAgoTypeString } from '@/functions/dateUtils'
 import Image from 'next/image'
 
 type ArticleCardProps = {

@@ -11,9 +11,11 @@ import { BsInfoCircle } from 'react-icons/bs'
 import Link from 'next/link'
 import { BiLogOutCircle } from 'react-icons/bi'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 // import { GlobalContext } from '@/functions/context'
 
 export const Menu = () => {
+  const { push } = useRouter()
   const [activeAba, setActiveAba] = useState('')
 
   const handleActiveAba = (aba: string) => {
@@ -98,7 +100,10 @@ export const Menu = () => {
           </li>
         ))}
 
-        <li className="flex items-center gap-x-3 px-4 py-2.5 hover:bg-[#ffffff1a] hover:rounded-full w-max hover:cursor-pointer">
+        <li
+          className="flex items-center gap-x-3 px-4 py-2.5 hover:bg-[#ffffff1a] hover:rounded-full w-max hover:cursor-pointer"
+          onClick={() => push('/')}
+        >
           <BiLogOutCircle className="text-white text-2xl" />
           Sair
         </li>

@@ -2,9 +2,9 @@
 
 import { TfiBackLeft } from 'react-icons/tfi'
 import { HiArrowRight } from 'react-icons/hi'
-import { redirect, useRouter } from 'next/navigation'
+
 import { ToggleLoginOrRegister } from './type'
-import { ResponseAPI } from '@/@types/response-api'
+import { useRouter } from 'next/navigation'
 
 export const Login = ({ toggleLoginOrRegister }: ToggleLoginOrRegister) => {
   const { push } = useRouter()
@@ -17,37 +17,15 @@ export const Login = ({ toggleLoginOrRegister }: ToggleLoginOrRegister) => {
       return
     }
 
-    try {
-      const pubkey = await window.nostr.getPublicKey()
+    const pubkey = await window.nostr.getPublicKey()
 
-      if (!pubkey) {
-        alert('User rejected the request')
-        return
-      }
-
-      const output = await fetch('/external/api', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          pubkey,
-        }),
-      })
-
-      const { success, error } = (await output.json()) as ResponseAPI
-
-      if (!success) {
-        alert(error)
-        return
-      }
-
-      redirect('/global')
-    } catch (error) {
-      alert('User rejected the request')
+    if (!pubkey) {
+      alert('User rejected the request a')
+      return
     }
-  }
 
+    push('/global')
+  }
   return (
     <div className="w-full flex flex-col items-center justify-center space-y-4">
       <div

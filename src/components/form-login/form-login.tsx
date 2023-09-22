@@ -147,17 +147,13 @@ export const FormLogin = () => {
         </svg>
       </div>
 
-      <section className="flex flex-col items-center justify-center z-30">
+      <section className="flex flex-col items-center justify-center z-30 max-w-lg min-w-max">
         <h1 className="text-5xl font-bold text-gray-500 mb-1 text-center">
           Bem-vindo ao Nagaro
         </h1>
-        <h2 className="text-xl font-bold text-gray-500 text-center">
+        <h2 className="text-xl font-bold text-gray-500 text-center mb-5">
           Uma rede social minimalista e simples de usar para você
         </h2>
-        <h3 className="font-bold text-center text-gray-600 mb-7">
-          Crie uma conta com apenas um clique ou faça login com sua chave de
-          acesso para <br /> começar a usar e interagir com a comunidade
-        </h3>
 
         {loginOrRegister === 'login' && (
           <Login toggleLoginOrRegister={toggleLoginOrRegister} />

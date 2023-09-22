@@ -6,11 +6,10 @@ import { Publication } from './publication'
 import { Tabs } from './tabs'
 import { PublicationsAndAnswers } from './publications-and-answers'
 import { Likes } from './likes'
-import { EventMetadata } from '@/functions/get-events-from-user'
 
 type TabbedContentSwitcherProps = {
   totalPublications: number
-  events: EventMetadata[]
+  events: any[]
 }
 
 export const TabbedContentSwitcher = ({
@@ -26,7 +25,7 @@ export const TabbedContentSwitcher = ({
   }
 
   return (
-    <div>
+    <>
       <Tabs
         activeTab={activeTab}
         handleTabClick={handleTabClick}
@@ -38,6 +37,6 @@ export const TabbedContentSwitcher = ({
         <PublicationsAndAnswers events={[]} />
       )}
       {activeTab === 'gostei' && <Likes events={[]} />}
-    </div>
+    </>
   )
 }

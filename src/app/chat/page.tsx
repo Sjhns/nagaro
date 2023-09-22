@@ -4,7 +4,7 @@ import { Sidebar } from '@/components/sidebar'
 export default async function Page() {
   return (
     <div className="flex w-full min-h-screen">
-      <div className="flex-1">
+      <div className="flex-1 border-l border-white-transparent">
         <Header title="Chat" />
 
         <div className="flex flex-col items-center justify-center h-full">

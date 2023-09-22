@@ -1,13 +1,12 @@
-import { EventMetadata } from '@/functions/get-events-from-user'
 import { Note } from '../note'
 
 type PublicationProps = {
-  events: EventMetadata[]
+  events: any[]
 }
 
 export const Publication = ({ events }: PublicationProps) => {
   return (
-    <div className="flex items-center justify-between px-4 pt-4">
+    <div className="flex items-center justify-between pt-4">
       <div className="flex flex-col w-full">
         {events.map((event) => (
           <Note

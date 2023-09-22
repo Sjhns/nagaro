@@ -2,33 +2,39 @@
 'use client'
 
 import { handleTextareaResize } from '@/functions/text-area-resize'
-import { ProfileMetadata } from '@/types/metadata'
+import { ProfileMetadata } from '@/types/profile-metadata'
 
 import { useProfile } from 'nostr-react'
 import { useState, ChangeEvent } from 'react'
 import { UploadImage } from './upload-image'
 
 export const Edit = () => {
-  const { data: profile } = useProfile({
-    pubkey: '2c54e621ece4ffdba085b70efd20d436b688b0f9f3e7bcfcac7a301805412087',
+  const pubkey =
+    '2c54e621ece4ffdba085b70efd20d436b688b0f9f3e7bcfcac7a301805412087'
+
+  const { data } = useProfile({
+    pubkey,
+    enabled: !!pubkey,
   })
 
-  const [updateProfile, setUpdateProfile] = useState<ProfileMetadata>(
-    profile! ?? {
-      name: '',
-      picture: '',
-      banner: '',
-      about: '',
-      website: '',
-      lud16: '',
-      display_name: '',
-      lud06: '',
-      nip05: '',
-      username: '',
-      created_at: 0,
-      npub: '',
-    },
-  )
+  const profile = data ?? {
+    name: '',
+    picture: '',
+    banner: '',
+    about: '',
+    website: '',
+    lud16: '',
+    display_name: '',
+    lud06: '',
+    nip05: '',
+    username: '',
+    created_at: 0,
+    npub: '',
+  }
+
+  const [updateProfile, setUpdateProfile] = useState<ProfileMetadata>({
+    ...profile,
+  })
 
   const handleUpdateProfile = () => {
     console.log(updateProfile)
@@ -179,7 +185,7 @@ export const Edit = () => {
           <span className="ml-1">
             {updateProfile.created_at &&
               new Date(
-                updateProfile?.created_at * 1000 ?? '',
+                (updateProfile?.created_at ?? '') * 1000,
               ).toLocaleDateString('pt-BR', {
                 day: 'numeric',
                 month: 'long',

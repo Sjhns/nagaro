@@ -7,7 +7,7 @@ export interface Link {
   end: number
 }
 
-export const extractImagesFromLinks = (links: Link[]) => {
+export const extractMedias = (links: Link[]) => {
   const imageLinks: string[] = []
   const videoLinks: string[] = []
   const otherLinks: string[] = []

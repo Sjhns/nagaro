@@ -1,4 +1,4 @@
-import { Link } from './extract-images-from-links'
+import { Link } from './extract-medias'
 
 export const removeLinksFromText = (text: string, links: Link[]) => {
   let textWithoutLinks = text

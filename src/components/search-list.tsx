@@ -1,6 +1,5 @@
 'use client'
 
-import { EventMetadata } from '@/functions/get-events-from-user'
 import { useNostrEvents } from 'nostr-react'
 import { Note } from './note'
 
@@ -14,6 +13,7 @@ export const SearchList = ({ hashTag }: Props) => {
       kinds: [1],
       '#t': [hashTag],
     },
+    enabled: !!hashTag,
   })
 
   const firstsTenEvents = allEvents.slice(0, 50)
@@ -27,12 +27,11 @@ export const SearchList = ({ hashTag }: Props) => {
     },
   })
 
-  const eventsMetadata = firstsTenEvents.map((e): EventMetadata => {
+  const eventsMetadata = firstsTenEvents.map((e) => {
     const data = profiles.find((a) => a.pubkey === e.pubkey)
 
     if (!data) {
       return e
-      // author: undefined,
     }
 
     const author = JSON.parse(data.content)
@@ -40,7 +39,7 @@ export const SearchList = ({ hashTag }: Props) => {
     return {
       ...e,
       author,
-    } as EventMetadata
+    } as any
   })
 
   return (

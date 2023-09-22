@@ -1,7 +1,10 @@
+'use client'
+
 import { HeaderNote } from './header-note'
 import { BodyNote } from './body-note'
 import { FooterNote } from './footer-note'
-import { formatTimeAgoTypeNumber } from '@/utils/dateUtils'
+import { formatTimeAgoTypeNumber } from '@/functions/dateUtils'
+import { usePathname, useRouter } from 'next/navigation'
 
 type NotaProps = {
   name: string | undefined
@@ -28,8 +31,30 @@ export const Note = ({
   tags,
   pubkey,
 }: NotaProps) => {
+  const { push } = useRouter()
+  const path = usePathname()
+
+  const isDetailsNote = path === `/d/${id}`
+
+  const handlePostDetails = () => {
+    if (isDetailsNote) {
+      return
+    }
+
+    push(`/d/${id}`)
+  }
+
   return (
-    <div className="flex flex-col w-full px-3.5 py-4 border-b border-divider-color">
+    <div
+      className={`flex flex-col w-full px-3.5 py-4 border-b border-divider-color
+    ${
+      isDetailsNote
+        ? 'cursor-default'
+        : 'hover:cursor-pointer hover:bg-[#38383830]'
+    }
+    `}
+      onClick={isDetailsNote ? undefined : handlePostDetails}
+    >
       <HeaderNote
         name={name}
         pubkey={pubkey}

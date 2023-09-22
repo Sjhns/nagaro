@@ -31,10 +31,7 @@ export const Sidebar = async () => {
   const articles = await getArticle(4)
   return (
     <div className="flex-col hidden lg:flex lg:w-1/3 min-w-min">
-      <div
-        className="border-l border-white-transparent
-         py-2 px-3 pt-4 md:mx-0 flex flex-col gap-4"
-      >
+      <div className="py-2 px-3 pt-4 md:mx-0 flex flex-col gap-4">
         <SearchBox />
 
         {/* --------------- */}

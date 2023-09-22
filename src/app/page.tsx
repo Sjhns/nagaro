@@ -1,7 +1,9 @@
+import { LoginTemplate } from '@/template/login'
+
 export default function Home() {
   return (
-    <>
-      <h1>Home</h1>
-    </>
+    <div className="absolute inset-0 bg-black">
+      <LoginTemplate />
+    </div>
   )
 }

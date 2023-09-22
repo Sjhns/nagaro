@@ -2,6 +2,7 @@
 /* eslint-disable spaced-comment */
 
 'use client'
+
 import { NostrProvider as NostrProviderFromNostrReact } from 'nostr-react'
 //@ts-ignore
 import { NostrProvider as NostrProviderFromUseNostr } from '@cmdcode/use-nostr'

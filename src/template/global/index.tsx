@@ -13,7 +13,7 @@ export const FeedGlobal = () => {
   const maxEventsToShow = 100
 
   const [showLoadMoreButton, setShowLoadMoreButton] = useState(false)
-  const [displayedEvents, setDisplayedEvents] = useState<Event[]>([])
+
   const [visibleEvents, setVisibleEvents] = useState(maxEventsToShow)
 
   const { events, isLoading } = useNostrEvents({
@@ -23,7 +23,7 @@ export const FeedGlobal = () => {
     },
   })
 
-  const extractPubkey = displayedEvents.map((e) => e.pubkey)
+  const extractPubkey = events.map((e) => e.pubkey)
 
   const { events: profiles, isLoading: isLoadingProfile } = useNostrEvents({
     filter: {
@@ -32,7 +32,7 @@ export const FeedGlobal = () => {
     },
   })
 
-  const data = displayedEvents.map((e): EventMetadata => {
+  const data = events.map((e): EventMetadata => {
     const data = profiles.find((a) => a.pubkey === e.pubkey)
 
     if (!data) {
@@ -59,10 +59,6 @@ export const FeedGlobal = () => {
 
     // return acc.find((e) => e.id === event.id) ? acc : [...acc, event]
   }, [] as EventMetadata[])
-
-  useEffect(() => {
-    setDisplayedEvents(events.slice(0, maxEventsToShow))
-  }, [visibleEvents])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -101,28 +97,6 @@ export const FeedGlobal = () => {
         </div>
       </div>
 
-      {isLoading ||
-        (isLoadingProfile && (
-          <div className="flex items-center justify-center w-full min-h-screen relative">
-            <span className="text-gray-500 text-xl text-center">
-              Carregando eventos...
-            </span>
-
-            {showLoadMoreButton && (
-              <div className="fixed bottom-16 md:bottom-8 justify-center items-center z-10 flex w-full md:w-1/2 pb-safe-area">
-                <button
-                  className="p-2 text-xs rounded-full opacity-90 hover:opacity-100 hover:bg-iris-blue bg-iris-blue text-white font-semibold"
-                  onClick={() =>
-                    setVisibleEvents(visibleEvents + maxEventsToShow)
-                  }
-                  style={{ transition: 'opacity 0.3s ease' }}
-                >
-                  Carregar mais eventos
-                </button>
-              </div>
-            )}
-          </div>
-        ))}
       <div>
         {eventsMetadata.map((event) => (
           <Note
@@ -139,32 +113,15 @@ export const FeedGlobal = () => {
           />
         ))}
       </div>
-      {!displayedEvents.length && (
+
+      {!events.length && (
         <div className="flex items-center justify-center w-full min-h-screen">
           <span className="text-gray-500 text-xl text-center">
             Clique em &quot;Carregar mais eventos&quot; para carregar os eventos
           </span>
         </div>
       )}
-      {/* {visibleEvents < events.length && (
-        // <div className="flex justify-center">
-        //   <button
-        //     className="fixed bottom-10 bg-blue-500 text-white p-1.5 rounded "
-        //     onClick={() => setVisibleEvents(visibleEvents + maxEventsToShow)}
-        //   >
-        //     Carregar mais eventos
-        //   </button>
-        // </div>
 
-        <div className="fixed bottom-16 md:bottom-8 justify-center items-center z-10 flex w-full md:w-1/2 pb-safe-area">
-          <button
-            className="p-2 text-xs rounded-full opacity-90 hover:opacity-100 hover:bg-iris-blue bg-iris-blue text-white font-semibold"
-            onClick={() => setVisibleEvents(visibleEvents + maxEventsToShow)}
-          >
-            Carregar mais eventos
-          </button>
-        </div>
-      )} */}
       {showLoadMoreButton && (
         <div className="fixed bottom-16 md:bottom-8 justify-center items-center z-10 flex w-full md:w-1/2 pb-safe-area">
           <button

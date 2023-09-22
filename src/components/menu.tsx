@@ -98,9 +98,7 @@ export const Menu = () => {
           </li>
         ))}
 
-        <li
-          className="flex items-center gap-x-3 px-4 py-2.5 hover:bg-[#ffffff1a] hover:rounded-full w-max hover:cursor-pointer"
-        >
+        <li className="flex items-center gap-x-3 px-4 py-2.5 hover:bg-[#ffffff1a] hover:rounded-full w-max hover:cursor-pointer">
           <BiLogOutCircle className="text-white text-2xl" />
           Sair
         </li>

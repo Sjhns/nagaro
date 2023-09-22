@@ -10,32 +10,22 @@ import { CiSearch } from 'react-icons/ci'
 import { BsInfoCircle } from 'react-icons/bs'
 import Link from 'next/link'
 import { BiLogOutCircle } from 'react-icons/bi'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 // import { GlobalContext } from '@/functions/context'
 
 export const Menu = () => {
-  const { refresh } = useRouter()
   const [activeAba, setActiveAba] = useState('')
 
   const handleActiveAba = (aba: string) => {
     setActiveAba(aba)
   }
 
-  // const { user } = useContext(GlobalContext)
   const user = {
     pubkey: '2c54e621ece4ffdba085b70efd20d436b688b0f9f3e7bcfcac7a301805412087',
     name: 'Johnson',
     picture: '2c54e621ece4ffdba085b70efd20d436b688b0f9f3e7bcfcac7a301805412087',
     display_name: 'Johnson',
   }
-
-  // const handleLogout = async () => {
-  //   await fetch('http://localhost:3000/external/api', {
-  //     method: 'DELETE',
-  //   })
-  //   refresh()
-  // }
 
   const items = [
     {
@@ -110,7 +100,6 @@ export const Menu = () => {
 
         <li
           className="flex items-center gap-x-3 px-4 py-2.5 hover:bg-[#ffffff1a] hover:rounded-full w-max hover:cursor-pointer"
-          // onClicçk={handleLogout}
         >
           <BiLogOutCircle className="text-white text-2xl" />
           Sair

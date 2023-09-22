@@ -6,16 +6,11 @@ export default function Page() {
       <Header title="Sobre" />
 
       <section className="p-3 pr-20 pb-20 space-y-10">
-        <div className="space-y-5">
+        <div className="space-y-3">
           <span className="text-xl font-bold">Sobre</span>
           <p className="text-gray-white-400">
             A Nagaro é uma rede social minimalista, mas com os recursos que você
             já conhece e ama.
-          </p>
-
-          <p className="text-gray-white-400">
-            Nossa missão é fornecer uma plataforma de mídia social que seja
-            simples, rápida e segura.
           </p>
 
           <ul className="space-y-2 list-disc pl-7">
@@ -41,6 +36,16 @@ export default function Page() {
               plataforma e começar a interagir com outros usuários.
             </li>
           </ul>
+        </div>
+        <div className="space-y-3">
+          <span className="text-xl font-bold">Protocolo Nostr</span>
+          <p className="text-gray-white-400">
+            A Nagaro é baseada no protocolo Nostr, que garante a privacidade e
+            segurança dos dados dos usuários. A Nostr é um protocolo de rede
+            descentralizado para um sistema de rede social distribuído. As
+            postagens são resistentes à censura e são validadas
+            criptograficamente.
+          </p>
         </div>
 
         <div className="space-y-5">

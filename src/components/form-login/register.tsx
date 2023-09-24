@@ -5,7 +5,7 @@ import { IoMdLogIn } from 'react-icons/io'
 
 export const Register = ({ toggleLoginOrRegister }: ToggleLoginOrRegister) => {
   return (
-    <div className="w-full flex flex-col items-center justify-center space-y-4">
+    <div className="w-full flex flex-col items-center justify-center space-y-4 px-5 md:px-0 md:w-2/3">
       <div
         className="flex w-full items-center justify-center 
     bg-[#2727279e] pl-5 rounded-full h-12"

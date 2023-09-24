@@ -147,7 +147,7 @@ export const FormLogin = () => {
         </svg>
       </div>
 
-      <section className="flex flex-col items-center justify-center z-30 max-w-lg min-w-max">
+      <section className="flex flex-col w-full items-center justify-center z-30">
         <h1 className="text-5xl font-bold text-gray-500 mb-1 text-center">
           Bem-vindo ao Nagaro
         </h1>

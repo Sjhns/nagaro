@@ -1,4 +1,5 @@
 import { Header } from '@/components/header'
+import Link from 'next/link'
 
 export default function Page() {
   return (
@@ -53,15 +54,11 @@ export default function Page() {
 
           <ul className="space-y-2 list-disc pl-7">
             <li className="text-gray-white-400">
-              <span className="font-bold">Nome:</span> Nagaro
-            </li>
-
-            <li className="text-gray-white-400">
               <span className="font-bold">Versão:</span> 1.0.0 (Beta)
             </li>
 
             <li className="text-gray-white-400">
-              <span className="font-bold">Data de lançamento:</span> 01/09/2021
+              <span className="font-bold">Data de lançamento:</span> 30/09/2023
             </li>
           </ul>
         </div>
@@ -71,39 +68,15 @@ export default function Page() {
 
           <ul className="space-y-2 list-disc pl-7">
             <li className="text-gray-white-400">
-              <span className="font-bold">Twitter:</span>{' '}
-              <a
-                href="https://twitter.com/nagarosocial"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 hover:underline"
-              >
-                @nagarosocial
-              </a>
-            </li>
-
-            <li className="text-gray-white-400">
-              <span className="font-bold">Instagram:</span>{' '}
-              <a
-                href="https://instagram.com/nagarosocial"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 hover:underline"
-              >
-                @nagarosocial
-              </a>
-            </li>
-
-            <li className="text-gray-white-400">
               <span className="font-bold">Linkedin:</span>{' '}
-              <a
-                href="https://www.linkedin.com/company/nagaro"
+              <Link
+                href="https://www.linkedin.com/company/nagaro/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-500 hover:underline"
               >
-                https://www.linkedin.com/company/nagaro
-              </a>
+                https://www.linkedin.com/company/nagaro/
+              </Link>
             </li>
           </ul>
         </div>

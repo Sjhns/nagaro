@@ -112,25 +112,13 @@ export const Menu = () => {
         </li>
       </ul>
 
-      {isFetchingMetadata && (
+      {isFetchingMetadata || !npub || !profile ? (
         <div className="mt-auto flex items-center space-x-2 px-5 py-2 hover:bg-[#ffffff1a] hover:rounded-full w-max animate-pulses">
           <div className="w-10 h-10 bg-gray-700 rounded-full"></div>
           <div className="w-12 h-4 bg-gray-700 rounded-full"></div>
         </div>
-      )}
-
-      {!npub && (
-        <div className="mt-auto flex items-center space-x-2 px-5 py-2 hover:bg-[#ffffff1a] hover:rounded-full w-max animate-pulses">
-          <div className="w-10 h-10 bg-gray-700 rounded-full"></div>
-          <div className="w-12 h-4 bg-gray-700 rounded-full"></div>
-        </div>
-      )}
-
-      {!profile && (
-        <div className="mt-auto flex items-center space-x-2 px-5 py-2 hover:bg-[#ffffff1a] hover:rounded-full w-max animate-pulses">
-          <div className="w-10 h-10 bg-gray-700 rounded-full"></div>
-          <div className="w-12 h-4 bg-gray-700 rounded-full"></div>
-        </div>
+      ) : (
+        <></>
       )}
 
       {profile && !isFetchingMetadata && npub && (

@@ -31,8 +31,6 @@ export const Sidebar = async () => {
   const articles = await getArticle(4)
   return (
     <div className="flex-col hidden lg:flex lg:w-1/3 min-w-min">
-      <AlertDeveloper />
-
       <div className="py-2 px-3 pt-4 md:mx-0 flex flex-col gap-4">
         <SearchBox size="md" />
 
@@ -61,27 +59,36 @@ export const Sidebar = async () => {
             ))}
 
             <li>
-              <Link href="/articles">
-                <button className="w-full text-center text-[#1DA1F2] font-semibold py-2 hover:bg-[#2727279e]  ">
+              <Link href="/articles" className="w-full h-full">
+                <button className="w-full text-center text-[#1DA1F2] font-semibold py-2 hover:bg-[#2727279e]">
                   Ver mais
                 </button>
               </Link>
             </li>
           </ul>
         </div>
-
-        <span className="text-gray-500 text-xs mt-2">
-          Terms of Service Privacy Policy Cookie Policy Ads info More © 2023
-          Nagaro, Inc.
-        </span>
       </div>
+      <span className="text-gray-500 text-sm my-7 pl-3">
+        Tem alguma sugestão?{' '}
+        <Link
+          href="https://forms.gle/B9F9bcjtuE7kieX96"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 hover:underline"
+        >
+          Clique aqui
+        </Link>{' '}
+        para enviar.
+        <br />
+      </span>
+      <AlertDeveloper />
     </div>
   )
 }
 
 const AlertDeveloper = () => {
   return (
-    <div className="w-full px-2 pt-3">
+    <div className="w-full px-2 pt-3 sticky top-0">
       <div className="flex flex-col px-3 pb-5 rounded-lg shadow border border-white-transparent">
         <div className="flex flex-col items-center text-center">
           <div className="inline-block p-4 rounded-full">

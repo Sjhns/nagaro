@@ -2,7 +2,7 @@
 
 import { Note } from '@/components/note'
 import { useGlobalNotes } from '@/hooks/use-global-notes'
-import { memo, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { AiOutlineGlobal } from 'react-icons/ai'
 import { TfiWrite } from 'react-icons/tfi'
 import { LoadMoreButton } from './load-more-button'
@@ -11,18 +11,30 @@ import { CreateNote } from './publish-note'
 
 const FeedGlobal = () => {
   const [showLoadMoreButton, setShowLoadMoreButton] = useState(false)
-  const [feedOrPublish, setFeedOrPublish] = useState<'feed' | 'publish'>(
-    'publish',
-  )
+  const [feedOrPublish, setFeedOrPublish] = useState<'feed' | 'publish'>('feed')
 
-  const { isFetching, isNoteEmpty, noteEvents } = useGlobalNotes()
+  const { isFetching, noteEvents, toogleUpdateEvent } = useGlobalNotes()
 
-  if (isNoteEmpty)
-    return (
-      <div className="flex-1 flex items-center justify-center  relative min-h-screen">
-        <p className="text-gray-300 font-semibold">No Posts</p>
-      </div>
-    )
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY || window.pageYOffset
+      const windowHeight = window.innerHeight
+      const documentHeight = document.documentElement.scrollHeight
+      const scrollThreshold = 200
+
+      if (documentHeight - scrollY - windowHeight < scrollThreshold) {
+        setShowLoadMoreButton(true)
+      } else {
+        setShowLoadMoreButton(false)
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
 
   if (isFetching)
     return (
@@ -76,7 +88,15 @@ const FeedGlobal = () => {
           ))}
 
           {showLoadMoreButton && (
-            <LoadMoreButton setShowLoadMoreButton={setShowLoadMoreButton} />
+            <div className="fixed bottom-16 md:bottom-8 justify-center items-center z-10 flex w-full md:w-1/2 pb-safe-area">
+              <button
+                className="p-2 text-xs rounded-full opacity-90 hover:opacity-100 hover:bg-iris-blue bg-iris-blue text-white font-semibold"
+                style={{ transition: 'opacity 0.3s ease' }}
+                onClick={toogleUpdateEvent}
+              >
+                Carregar mais eventos
+              </button>
+            </div>
           )}
         </div>
       )}

@@ -11,6 +11,10 @@ export const useGlobalNotes = () => {
 
   const toogleUpdateEvent = () => {
     setUpdateEvent(true)
+
+    setTimeout(() => {
+      setUpdateEvent(false)
+    }, 1000)
   }
 
   const now = useRef(new Date())

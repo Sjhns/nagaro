@@ -10,23 +10,21 @@ import { CiSearch } from 'react-icons/ci'
 import { BsInfoCircle } from 'react-icons/bs'
 import Link from 'next/link'
 import { BiLogOutCircle } from 'react-icons/bi'
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-// import { GlobalContext } from '@/functions/context'
+import { useContext, useState } from 'react'
+
+import { AuthContext } from '@/contexts/use-auth'
+import { useProfile } from '@/hooks/use-profile'
+import { Avatar } from './avatar'
+import Image from 'next/image'
 
 export const Menu = () => {
-  const { push } = useRouter()
   const [activeAba, setActiveAba] = useState('')
 
+  const { logout, user } = useContext(AuthContext)
+  // 5a099ed6e79279d0806024cb2cb0786cdbf6d9dfb7a24e71165b46c50e0b3067
+  const { isFetchingMetadata, profile, npub } = useProfile(user?.npub ?? '')
   const handleActiveAba = (aba: string) => {
     setActiveAba(aba)
-  }
-
-  const user = {
-    pubkey: '2c54e621ece4ffdba085b70efd20d436b688b0f9f3e7bcfcac7a301805412087',
-    name: 'Johnson',
-    picture: '2c54e621ece4ffdba085b70efd20d436b688b0f9f3e7bcfcac7a301805412087',
-    display_name: 'Johnson',
   }
 
   const items = [
@@ -74,8 +72,14 @@ export const Menu = () => {
       className="sticky hidden lg:flex flex-col top-0 bottom-0 left-0 bg-[#000] h-screen
     min-w-[224px] w-56 pl-2 pt-5 pb-4 border-r border-white-transparent"
     >
-      <div className="flex items-end gap-x-2 mb-8 px-3">
-        {/* <img src="" alt="Logo" role="img" width={34} height={34} /> */}
+      <div className="flex items-center mb-8 px-3">
+        <Image
+          width={100000}
+          height={100000}
+          src="/svgs/noodle-left.svg"
+          alt="Logo"
+          className="w-10 h-10 mr-2 relative top-2"
+        />
         <h2 className="text-2xl font-bold text-gray-white-100">Nagaro</h2>
       </div>
 
@@ -102,32 +106,31 @@ export const Menu = () => {
 
         <li
           className="flex items-center gap-x-3 px-4 py-2.5 hover:bg-[#ffffff1a] hover:rounded-full w-max hover:cursor-pointer"
-          onClick={() => push('/')}
+          onClick={logout}
         >
           <BiLogOutCircle className="text-white text-2xl" />
           Sair
         </li>
       </ul>
 
-      <Link
-        href={`/profile/${user.pubkey}`}
-        className="mt-auto flex items-center space-x-2 px-5 py-2 hover:bg-[#ffffff1a] hover:rounded-full w-max"
-      >
-        <img
-          src={
-            'https://imgproxy.iris.to/insecure/rs:fill:256:256/plain/https://cdn.nostr.build/i/531d37b69a891e5f38096c217ddf82f72890eeffb29b1706be79c49a3bc2eaaa.jpg'
-          }
-          alt="Logo"
-          role="img"
-          width={32}
-          height={32}
-          className="object-cover object-center rounded-full"
-        />
+      {isFetchingMetadata && (
+        <div className="mt-auto flex items-center space-x-2 px-5 py-2 hover:bg-[#ffffff1a] hover:rounded-full w-max animate-pulses">
+          <div className="w-10 h-10 bg-gray-700 rounded-full"></div>
+          <div className="w-12 h-4 bg-gray-700 rounded-full"></div>
+        </div>
+      )}
+      {profile && !isFetchingMetadata && (
+        <Link
+          href={`/profile/${npub}`}
+          className="mt-auto flex items-center space-x-2 px-5 py-2 hover:bg-[#ffffff1a] hover:rounded-full w-max"
+        >
+          <Avatar src={profile.picture} alt="Profile" size="sm" />
 
-        <h3 className="text-gray-white-300">
-          {user.name ?? user.display_name ?? 'Unknown'}
-        </h3>
-      </Link>
+          <h3 className="text-gray-white-300">
+            {profile.name ?? profile.displayName ?? 'Unknown'}
+          </h3>
+        </Link>
+      )}
     </aside>
   )
 }

@@ -3,66 +3,52 @@
 import { HeaderNote } from './header-note'
 import { BodyNote } from './body-note'
 import { FooterNote } from './footer-note'
-import { formatTimeAgoTypeNumber } from '@/functions/dateUtils'
-import { usePathname, useRouter } from 'next/navigation'
 
-type NotaProps = {
-  name: string | undefined
-  avatar: string | undefined
-  time: number
-  content: string
-  likes: number
-  answers?: number | undefined
-  shares: number
+import { useNoteEventById } from '@/hooks/use-note'
+import { useProfile } from '@/hooks/use-profile'
+import { NoteLoadPulse } from './note-load-pulse'
+import { useNoteIdConvertToHex } from '@/hooks/use-note-hex'
+import { useNoteReactions } from '@/hooks/use-note-reactions'
+
+type Props = {
   id: string
-  pubkey: string
-  tags?: string[][]
 }
 
-export const Note = ({
-  id,
-  avatar,
-  answers,
-  content,
-  likes,
-  name,
-  shares,
-  time,
-  tags,
-  pubkey,
-}: NotaProps) => {
-  const { push } = useRouter()
-  const path = usePathname()
+export const Note = ({ id }: Props) => {
+  const hexId = useNoteIdConvertToHex(id)
 
-  const isDetailsNote = path === `/d/${id}`
+  const { noteEvent, nip19NoteId, isFetching } = useNoteEventById(hexId)
 
-  const handlePostDetails = () => {
-    if (isDetailsNote) {
-      return
-    }
+  const { npub, profile, isFetchingMetadata } = useProfile(
+    noteEvent?.pubkey || '',
+  )
 
-    push(`/d/${id}`)
+  const { answers, like, zap } = useNoteReactions(hexId)
+
+  if (isFetching || isFetchingMetadata) {
+    return <NoteLoadPulse />
   }
 
   return (
     <div
       className={`flex flex-col w-full px-3.5 py-4 border-b border-divider-color
-    ${
-      isDetailsNote
-        ? 'cursor-default'
-        : 'hover:cursor-pointer hover:bg-[#38383830]'
-    }
-    `}
-      onClick={isDetailsNote ? undefined : handlePostDetails}
+        hover:cursor-pointer hover:bg-[#38383830]/`}
     >
       <HeaderNote
-        name={name}
-        pubkey={pubkey}
-        avatar={avatar}
-        time={formatTimeAgoTypeNumber(time)}
+        name={profile.name}
+        npub={npub}
+        avatar={profile.picture}
+        time={profile.created_at}
       />
-      <BodyNote content={content} tags={tags} id={id} />
-      <FooterNote likes={likes} answers={answers} shares={shares} />
+
+      <BodyNote
+        content={noteEvent.content}
+        tags={noteEvent.tags}
+        nip19NoteId={nip19NoteId}
+        npub={npub}
+      />
+
+      <FooterNote likes={like} answers={answers} reposts={0} zap={zap} />
     </div>
   )
 }

@@ -1,9 +1,9 @@
-import { FormLogin } from '@/components/form-login/form-login'
+import { Login } from '@/components/form-login'
 
 export const LoginTemplate = () => {
   return (
-    <div className="flex w-full min-h-screen">
-      <FormLogin />
+    <div className="w-full min-h-screen">
+      <Login />
     </div>
   )
 }

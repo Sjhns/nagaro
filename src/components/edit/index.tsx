@@ -4,67 +4,160 @@
 import { handleTextareaResize } from '@/functions/text-area-resize'
 import { ProfileMetadata } from '@/types/profile-metadata'
 
-import { useProfile } from 'nostr-react'
-import { useState, ChangeEvent } from 'react'
+import { useState, ChangeEvent, useContext, useEffect } from 'react'
 import { UploadImage } from './upload-image'
+import { useProfile } from '@/hooks/use-profile'
+import { AuthContext } from '@/contexts/use-auth'
+import { Spinner } from '../spinner'
+import { RELAYS } from '@/constants/relays'
+import { toast } from 'react-toastify'
+import { useRouter } from 'next/navigation'
+import {
+  Event,
+  EventTemplate,
+  SimplePool,
+  finishEvent,
+  getEventHash,
+} from 'nostr-tools'
+import { firebaseStore } from '@/store/firebase'
+import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'
 
 export const Edit = () => {
-  const pubkey =
-    '2c54e621ece4ffdba085b70efd20d436b688b0f9f3e7bcfcac7a301805412087'
+  const { user } = useContext(AuthContext)
+  const pool = new SimplePool()
+  const { back } = useRouter()
 
-  const { data } = useProfile({
-    pubkey,
-    enabled: !!pubkey,
-  })
+  const { isFetchingMetadata, profile } = useProfile(user?.npub ?? '')
 
-  const profile = data ?? {
+  const [updateProfile, setUpdateProfile] = useState<ProfileMetadata>({
     name: '',
     picture: '',
     banner: '',
     about: '',
     website: '',
     lud16: '',
-    display_name: '',
+    created_at: 0,
+    displayName: '',
+    id: '',
     lud06: '',
     nip05: '',
     username: '',
-    created_at: 0,
-    npub: '',
-  }
-
-  const [updateProfile, setUpdateProfile] = useState<ProfileMetadata>({
-    ...profile,
   })
 
-  const handleUpdateProfile = () => {
-    console.log(updateProfile)
+  useEffect(() => {
+    if (!isFetchingMetadata) {
+      setUpdateProfile(profile)
+    }
+  }, [isFetchingMetadata])
+
+  const handleUpdateProfile = async () => {
+    if (!user?.priv) {
+      try {
+        const unsignedEvent = {
+          kind: 0,
+          created_at: Math.floor(Date.now() / 1000),
+          tags: [],
+          content: JSON.stringify(updateProfile),
+        }
+
+        const sig = (await window.nostr.signEvent(unsignedEvent)).sig
+
+        const signedEvent: Event = {
+          ...unsignedEvent,
+          sig,
+          pubkey: user?.npub ?? '',
+          id: getEventHash({ ...unsignedEvent, pubkey: user?.npub ?? '' }),
+        }
+
+        pool.publish(RELAYS, signedEvent)
+
+        toast.success('Perfil atualizado com sucesso')
+
+        back()
+      } catch (error) {
+        toast.error('Você rejeitou a solicitação')
+      }
+    }
+
+    const unsignedEvent: EventTemplate = {
+      kind: 0,
+      created_at: Math.floor(Date.now() / 1000),
+      tags: [],
+      content: JSON.stringify(updateProfile),
+    }
+
+    const signedEvent = finishEvent(unsignedEvent, user?.priv ?? '')
+
+    console.log(signedEvent)
+
+    if (!signedEvent.sig) {
+      toast.error('Nenhuma assinatura foi encontrada')
+    }
+
+    try {
+      pool.publish(RELAYS, signedEvent)
+
+      toast.success('Perfil atualizado com sucesso')
+
+      back()
+    } catch (error) {
+      toast.error('Você rejeitou a solicitação')
+    }
   }
 
-  const handleImageChange = (
+  const handleImageChange = async (
     event: ChangeEvent<HTMLInputElement>,
     type: 'picture' | 'banner',
   ) => {
     const file = event.target?.files && event.target.files[0]
 
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        if (e.target) {
-          if (type === 'picture') {
-            setUpdateProfile({
-              ...updateProfile,
-              picture: e.target.result as string,
-            })
-          } else {
-            setUpdateProfile({
-              ...updateProfile,
-              banner: e.target.result as string,
-            })
-          }
-        }
-      }
-      reader.readAsDataURL(file)
+    if (!file) {
+      toast.error('Erro ao atualizar imagem')
+      return
     }
+
+    const { name } = file
+
+    const fileName = crypto.randomUUID() + '.' + name.split('.').pop()
+
+    const storageRef = ref(firebaseStore, 'proxy/' + fileName)
+
+    await uploadBytes(storageRef, file, {
+      contentType: file.type,
+    })
+
+    const listResult = await listAll(ref(firebaseStore, 'proxy'))
+
+    const url = listResult.items.find((item) => item.name === fileName)
+
+    if (!url) {
+      toast.error('Erro ao atualizar imagem')
+      return
+    }
+
+    const urlDownload = await getDownloadURL(url)
+
+    if (type === 'picture') {
+      setUpdateProfile({
+        ...updateProfile,
+        picture: urlDownload,
+      })
+    } else {
+      setUpdateProfile({
+        ...updateProfile,
+        banner: urlDownload,
+      })
+    }
+
+    toast.success('Imagem atualizada com sucesso')
+  }
+
+  if (isFetchingMetadata) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Spinner />
+      </div>
+    )
   }
 
   return (

@@ -1,7 +1,8 @@
 export interface ProfileMetadata {
+  id?: string
   name?: string
   username?: string
-  display_name?: string
+  displayName?: string
   picture?: string
   banner?: string
   about?: string
@@ -10,5 +11,4 @@ export interface ProfileMetadata {
   lud16?: string
   nip05?: string
   created_at?: number
-  npub?: string
 }

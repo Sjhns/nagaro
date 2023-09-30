@@ -6,15 +6,14 @@ import { Publication } from './publication'
 import { Tabs } from './tabs'
 import { PublicationsAndAnswers } from './publications-and-answers'
 import { Likes } from './likes'
+import { Notes } from '@/types/notes'
 
 type TabbedContentSwitcherProps = {
-  totalPublications: number
-  events: any[]
+  notes: Notes[]
 }
 
 export const TabbedContentSwitcher = ({
-  totalPublications,
-  events,
+  notes,
 }: TabbedContentSwitcherProps) => {
   const [activeTab, setActiveTab] = useState('publicacoes')
 
@@ -29,14 +28,14 @@ export const TabbedContentSwitcher = ({
       <Tabs
         activeTab={activeTab}
         handleTabClick={handleTabClick}
-        totalPublications={totalPublications}
+        totalPublications={notes.length ?? 0}
       />
 
-      {activeTab === 'publicacoes' && <Publication events={events} />}
+      {activeTab === 'publicacoes' && <Publication notes={notes} />}
       {activeTab === 'publicacoes-respostas' && (
-        <PublicationsAndAnswers events={[]} />
+        <PublicationsAndAnswers notes={[]} />
       )}
-      {activeTab === 'gostei' && <Likes events={[]} />}
+      {activeTab === 'gostei' && <Likes notes={[]} />}
     </>
   )
 }

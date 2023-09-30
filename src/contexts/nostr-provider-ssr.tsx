@@ -10,7 +10,7 @@ type Props = {
 export const NostrProviderSSR = ({ children, relayUrls }: Props) => {
   return (
     <>
-      <NostrProvider relayUrls={relayUrls} debug={true}>
+      <NostrProvider relayUrls={relayUrls} debug={false}>
         {children}
       </NostrProvider>
     </>

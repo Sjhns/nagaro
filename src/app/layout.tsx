@@ -1,9 +1,14 @@
-import { RELAYS } from '@/constants/relays'
 import './globals.css'
+
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+
+import { RELAYS } from '@/constants/relays'
 import { NostrProviderSSR } from '../contexts/nostr-provider-ssr'
-import { Menu } from '@/components/menu'
+import { AuthProvider } from '@/contexts/use-auth'
+import { ToastContainer } from 'react-toastify'
+
+import 'react-toastify/dist/ReactToastify.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,13 +25,21 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={inter.className}>
-        <NostrProviderSSR relayUrls={RELAYS}>
-          <main className="flex w-full">
-            <Menu />
-
-            <div className="flex-1">{children}</div>
-          </main>
-        </NostrProviderSSR>
+        <AuthProvider>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
+          />
+          <NostrProviderSSR relayUrls={RELAYS}>{children}</NostrProviderSSR>
+        </AuthProvider>
       </body>
     </html>
   )

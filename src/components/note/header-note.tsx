@@ -1,21 +1,22 @@
 import Link from 'next/link'
 import { BsThreeDots } from 'react-icons/bs'
 import { Avatar } from '../avatar'
+import { formatTimeAgoTypeNumber } from '@/functions/dateUtils'
 
 type HeaderNoteProps = {
   name: string | undefined
   avatar: string | undefined
-  time: string
-  pubkey: string
+  time?: number
+  npub: string
 }
 
-export const HeaderNote = ({ avatar, name, time, pubkey }: HeaderNoteProps) => {
+export const HeaderNote = ({ avatar, name, time, npub }: HeaderNoteProps) => {
   return (
     <div className="flex items-center justify-between w-full">
       <div className="flex items-center w-full">
         <div className="flex items-center w-full">
           <Link
-            href={`/profile/${pubkey}`}
+            href={`/profile/${npub}`}
             prefetch={false}
             className="hover:cursor-pointer flex items-center"
           >
@@ -23,7 +24,7 @@ export const HeaderNote = ({ avatar, name, time, pubkey }: HeaderNoteProps) => {
               alt="Avatar"
               src={
                 avatar ??
-                `https://api.dicebear.com/7.x/identicon/svg?seed=${pubkey}`
+                `https://api.dicebear.com/7.x/identicon/svg?seed=${npub}`
               }
               size="md"
             />
@@ -66,7 +67,7 @@ export const HeaderNote = ({ avatar, name, time, pubkey }: HeaderNoteProps) => {
             </svg>
           </span>
           <span className="text-[11px] text-gray-600 font-semibold">
-            {time}
+            {formatTimeAgoTypeNumber(time ?? 0)}
           </span>
 
           <span className="ml-auto p-2 rounded-full hover:bg-white-transparent text-gray-500 hover:cursor-pointer text-lg">

@@ -1,4 +1,4 @@
-import { FeedGlobal } from '@/components/feed-global'
+import FeedGlobal from '@/components/feed-global'
 import { Sidebar } from '@/components/sidebar'
 
 export const FeedGlobalTemplate = () => {

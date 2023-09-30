@@ -2,13 +2,13 @@ import { Profile } from '@/components/profile'
 import { Sidebar } from '@/components/sidebar'
 
 type Props = {
-  pubkey: string
+  address: string
 }
 
-export const ProfileTemplate = ({ pubkey }: Props) => {
+export const ProfileTemplate = ({ address }: Props) => {
   return (
     <div className="flex w-full min-h-screen">
-      <Profile pubkey={pubkey} />
+      <Profile address={address} />
       <Sidebar />
     </div>
   )

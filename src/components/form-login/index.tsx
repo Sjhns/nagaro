@@ -134,8 +134,10 @@ export const Login = () => {
 
       loginWithPrivateKey(privateKey)
 
-      push('/global')
-      refresh()
+      setTimeout(() => {
+        refresh()
+        push('/global')
+      }, 3000)
     } catch (error) {
       toast.error('Você rejeitou a solicitação')
     }

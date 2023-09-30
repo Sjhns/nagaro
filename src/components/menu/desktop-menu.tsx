@@ -10,59 +10,50 @@ import { CiSearch } from 'react-icons/ci'
 import { BsInfoCircle } from 'react-icons/bs'
 import Link from 'next/link'
 import { BiLogOutCircle } from 'react-icons/bi'
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 
 import { AuthContext } from '@/contexts/use-auth'
 import { useProfile } from '@/hooks/use-profile'
-import { Avatar } from './avatar'
+import { Avatar } from '../avatar'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 
-export const Menu = () => {
-  const [activeAba, setActiveAba] = useState('')
+export const DesktopMenu = () => {
   const { logout, user } = useContext(AuthContext)
   const { isFetchingMetadata, profile, npub } = useProfile(user?.npub ?? '')
-
-  const handleActiveAba = (aba: string) => {
-    setActiveAba(aba)
-  }
+  const pathname = usePathname()
 
   const items = [
     {
       id: 1,
-      icon: <AiOutlineHome className="text-white text-2xl" />,
+      icon: <AiOutlineHome className="text-2xl" />,
       title: 'Home',
       url: '/global',
-
-      onClick: () => handleActiveAba('home'),
     },
     {
       id: 2,
-      icon: <CiSearch className="text-white text-2xl " />,
+      icon: <CiSearch className="text-2xl " />,
       title: 'Pesquisar',
       url: '/search',
-      onClick: () => handleActiveAba('pesquisar'),
     },
     {
       id: 3,
-      icon: <AiOutlineMessage className="text-white text-2xl" />,
+      icon: <AiOutlineMessage className="text-2xl" />,
       title: 'Mensagens',
 
       url: '/chat',
-      onClick: () => handleActiveAba('mensagens'),
     },
     {
       id: 4,
-      icon: <AiOutlineSetting className="text-white text-2xl" />,
+      icon: <AiOutlineSetting className="text-2xl" />,
       title: 'Configurações',
       url: '/settings',
-      onClick: () => handleActiveAba('configurações'),
     },
     {
       id: 5,
-      icon: <BsInfoCircle className="text-white text-2xl" />,
+      icon: <BsInfoCircle className="text-2xl" />,
       title: 'Sobre',
       url: '/about',
-      onClick: () => handleActiveAba('sobre'),
     },
   ]
 
@@ -84,17 +75,13 @@ export const Menu = () => {
 
       <ul className="space-y-5">
         {items.map((item) => (
-          <li key={item.id} onClick={item.onClick}>
+          <li key={item.id}>
             <Link
               href={item.url}
               className={`flex items-center gap-x-3 px-4 py-2.5 
               hover:bg-[#ffffff1a] hover:rounded-full w-max 
               hover:cursor-pointer
-              ${
-                activeAba === item.title.toLowerCase()
-                  ? 'bg-[#ffffff1a] rounded-full'
-                  : ''
-              }
+              ${pathname === item.url ? 'text-blue-500' : ''}
                 `}
             >
               {item.icon}
@@ -112,13 +99,11 @@ export const Menu = () => {
         </li>
       </ul>
 
-      {isFetchingMetadata || !npub || !profile ? (
+      {isFetchingMetadata && (
         <div className="mt-auto flex items-center space-x-2 px-5 py-2 hover:bg-[#ffffff1a] hover:rounded-full w-max animate-pulses">
           <div className="w-10 h-10 bg-gray-700 rounded-full"></div>
           <div className="w-12 h-4 bg-gray-700 rounded-full"></div>
         </div>
-      ) : (
-        <></>
       )}
 
       {profile && !isFetchingMetadata && npub && (

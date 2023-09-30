@@ -73,11 +73,17 @@ export const useProfileAddressHex = (profileAddress: string) => {
 
 export const useProfile = (profileAddress: string) => {
   const profileHex = useProfileAddressHex(profileAddress)
+  const [invalidated, setInvalidated] = useState(false)
+
+  const handleInvalidate = () => {
+    setInvalidated(true)
+    setTimeout(() => setInvalidated(false), 1000)
+  }
 
   const { events: metadataEvents, eose: metadataEose } = useSubscribe({
     relays: RELAYS,
     filters: [{ authors: [profileHex], kinds: [0] }],
-    options: { enabled: !!profileHex },
+    options: { enabled: !!profileHex, invalidate: invalidated },
   })
 
   const isFetchingMetadata = !metadataEose && !metadataEvents.length
@@ -89,16 +95,17 @@ export const useProfile = (profileAddress: string) => {
   const profile: ProfileMetadata = {
     about: profileObject.about || '',
     banner: profileObject.banner || '',
-    id: profileObject.id || '',
     lud06: profileObject.lud06 || '',
     name: profileObject.name || '',
     nip05: profileObject.nip05 || '',
     picture: profileObject.picture || '',
     website: profileObject.website || '',
     displayName: profileObject.display_name || profileObject.name,
-    created_at: profileObject.created_at || 0,
     lud16: profileObject.lud16 || '',
     username: profileObject.username || '',
+    created_at: metadataEvents[0]?.created_at ?? 0,
+    id: metadataEvents[0]?.id ?? '',
+    tags: metadataEvents[0]?.tags || [],
   }
 
   const npub = metadataEvents.length
@@ -110,5 +117,6 @@ export const useProfile = (profileAddress: string) => {
     npub,
     isFetchingMetadata,
     isMetadataEmpty,
+    handleInvalidate,
   }
 }

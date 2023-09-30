@@ -8,7 +8,7 @@ import { useSearchParams } from 'next/navigation'
 
 export const useNoteAnswers = (noteId: string) => {
   const searchParams = useSearchParams()
-  const npubAuthor = searchParams.get('npub')!
+  const npubAuthor = searchParams.get('npub') ?? ''
 
   const noteIdHex = useNoteIdConvertToHex(noteId)
   const authorHex = useProfileAddressHex(npubAuthor)

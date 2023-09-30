@@ -1,8 +1,3 @@
-type Props = {
-  //   showLoadMoreButton: boolean
-  setShowLoadMoreButton: (value: boolean) => void
-}
-
 export const LoadMoreButton = () => {
   return (
     <div className="fixed bottom-16 md:bottom-8 justify-center items-center z-10 flex w-full md:w-1/2 pb-safe-area">

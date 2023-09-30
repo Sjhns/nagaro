@@ -11,4 +11,5 @@ export interface ProfileMetadata {
   lud16?: string
   nip05?: string
   created_at?: number
+  tags?: string[][]
 }

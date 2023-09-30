@@ -19,10 +19,9 @@ import Image from 'next/image'
 
 export const Menu = () => {
   const [activeAba, setActiveAba] = useState('')
-
   const { logout, user } = useContext(AuthContext)
-  // 5a099ed6e79279d0806024cb2cb0786cdbf6d9dfb7a24e71165b46c50e0b3067
   const { isFetchingMetadata, profile, npub } = useProfile(user?.npub ?? '')
+
   const handleActiveAba = (aba: string) => {
     setActiveAba(aba)
   }
@@ -119,7 +118,22 @@ export const Menu = () => {
           <div className="w-12 h-4 bg-gray-700 rounded-full"></div>
         </div>
       )}
-      {profile && !isFetchingMetadata && (
+
+      {!npub && (
+        <div className="mt-auto flex items-center space-x-2 px-5 py-2 hover:bg-[#ffffff1a] hover:rounded-full w-max animate-pulses">
+          <div className="w-10 h-10 bg-gray-700 rounded-full"></div>
+          <div className="w-12 h-4 bg-gray-700 rounded-full"></div>
+        </div>
+      )}
+
+      {!profile && (
+        <div className="mt-auto flex items-center space-x-2 px-5 py-2 hover:bg-[#ffffff1a] hover:rounded-full w-max animate-pulses">
+          <div className="w-10 h-10 bg-gray-700 rounded-full"></div>
+          <div className="w-12 h-4 bg-gray-700 rounded-full"></div>
+        </div>
+      )}
+
+      {profile && !isFetchingMetadata && npub && (
         <Link
           href={`/profile/${npub}`}
           className="mt-auto flex items-center space-x-2 px-5 py-2 hover:bg-[#ffffff1a] hover:rounded-full w-max"

@@ -31,8 +31,10 @@ export const Sidebar = async () => {
   const articles = await getArticle(4)
   return (
     <div className="flex-col hidden lg:flex lg:w-1/3 min-w-min">
+      <AlertDeveloper />
+
       <div className="py-2 px-3 pt-4 md:mx-0 flex flex-col gap-4">
-        <SearchBox />
+        <SearchBox size="md" />
 
         {/* --------------- */}
 
@@ -68,12 +70,41 @@ export const Sidebar = async () => {
           </ul>
         </div>
 
-        {/* ---------------- */}
-
         <span className="text-gray-500 text-xs mt-2">
           Terms of Service Privacy Policy Cookie Policy Ads info More © 2023
           Nagaro, Inc.
         </span>
+      </div>
+    </div>
+  )
+}
+
+const AlertDeveloper = () => {
+  return (
+    <div className="w-full px-2 pt-3">
+      <div className="flex flex-col px-3 pb-5 rounded-lg shadow border border-white-transparent">
+        <div className="flex flex-col items-center text-center">
+          <div className="inline-block p-4 rounded-full">
+            <svg
+              className="w-12 h-12 fill-current text-yellow-500"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <path d="M0 0h24v24H0V0z" fill="none" />
+              <path d="M12 5.99L19.53 19H4.47L12 5.99M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z" />
+            </svg>
+          </div>
+          <h2 className="mt-2 font-semibold text-gray-200 text-lg">
+            A nagaro ainda está em desenvolvimento
+          </h2>
+          <p className="mt-2 text-sm text-gray-300 leading-relaxed">
+            A Nagaro ainda está em desenvolvimento, então, algumas
+            funcionalidades podem não está funcionando corretamente ou não
+            estarem disponíveis ainda. Agradecemos a compreensão. Estamos
+            trabalhando para melhorar a Nagaro a cada dia e sua opinião é muito
+            importante para nós.
+          </p>
+        </div>
       </div>
     </div>
   )

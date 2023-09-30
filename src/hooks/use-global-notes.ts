@@ -2,19 +2,27 @@
 
 import { useSubscribe } from 'nostr-hooks'
 import { RELAYS } from '@/constants/relays'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import { dateToUnix } from '@/functions/date-to-unix'
 
 export const useGlobalNotes = () => {
-  const oneHourAgo = new Date().getTime() - 3600000
-
   const [updateEvent, setUpdateEvent] = useState(false)
+
   const toogleUpdateEvent = () => {
-    setUpdateEvent((old) => true)
+    setUpdateEvent(true)
   }
+
+  const now = useRef(new Date())
 
   const { events: noteEvents, eose: noteEose } = useSubscribe({
     relays: RELAYS,
-    filters: [{ kinds: [1], until: oneHourAgo, limit: 30 }],
+    filters: [
+      {
+        kinds: [1],
+        until: dateToUnix(now.current),
+        limit: 30,
+      },
+    ],
     options: { invalidate: updateEvent },
   })
 

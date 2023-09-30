@@ -3,8 +3,8 @@ import { Sidebar } from '@/components/sidebar'
 
 export default async function Page() {
   return (
-    <div className="flex w-full min-h-screen">
-      <div className="flex-1 px-2">
+    <div className="flex w-full ">
+      <div className="flex-1 px-2 border-r border-white-transparent">
         {/* <Header title={'Pesquisar'} /> */}
 
         <div className="mt-5"></div>

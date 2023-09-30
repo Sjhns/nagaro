@@ -17,7 +17,7 @@ import { LoginHeader } from './login-header'
 import { validateKeyHex } from '@/functions/validate-key-hex'
 
 export const Login = () => {
-  const { push } = useRouter()
+  const { push, refresh } = useRouter()
   const { isAuthenticated, loginWithPrivateKey, loginWithPublicKey } =
     useContext(AuthContext)
   const [isNewUser, setIsNewUser] = useState(false)
@@ -124,7 +124,7 @@ export const Login = () => {
 
       const handlePublish = async () => {
         try {
-          await pool.publish(RELAYS, signedEvent)
+          pool.publish(RELAYS, signedEvent)
         } catch (error) {
           toast.error('Você rejeitou a solicitação')
         }
@@ -135,6 +135,7 @@ export const Login = () => {
       loginWithPrivateKey(privateKey)
 
       push('/global')
+      refresh()
     } catch (error) {
       toast.error('Você rejeitou a solicitação')
     }

@@ -1,3 +1,5 @@
+'use client'
+
 import { RELAYS } from '@/constants/relays'
 import { useProfileAddressHex } from '@/hooks/use-profile'
 import { useSubscribe } from 'nostr-hooks'

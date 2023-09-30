@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { ChangeEvent } from 'react'
 
 type Props = {
@@ -46,7 +47,6 @@ export const UploadImage = ({
         )}
 
         {!value && (
-          // Exibir um ícone de upload ou qualquer outro conteúdo desejado
           <div className="w-20 h-20 bg-[#444444] rounded-full flex items-center justify-center text-gray-200">
             <span className="text-3xl">+</span>
           </div>

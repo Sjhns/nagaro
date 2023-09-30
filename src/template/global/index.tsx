@@ -1,10 +1,10 @@
-import FeedGlobal from '@/components/feed-global'
+import Home from '@/components/home'
 import { Sidebar } from '@/components/sidebar'
 
-export const FeedGlobalTemplate = () => {
+export const HomeTemplate = () => {
   return (
     <div className="flex w-full min-h-screen">
-      <FeedGlobal />
+      <Home />
       <Sidebar />
     </div>
   )

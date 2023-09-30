@@ -2,7 +2,6 @@
 
 import { AuthContext } from '@/contexts/use-auth'
 import { handleTextareaResize } from '@/functions/text-area-resize'
-import { useRouter } from 'next/router'
 import { useContext, useState } from 'react'
 import {
   EventTemplate,
@@ -22,7 +21,6 @@ function extractHashtags(text: string) {
     return []
   }
 
-  // Organize as hashtags em um formato desejado
   const hashtags = matches.map((match) => {
     // Remova o caractere "#" e transforme todas as letras em minúsculas
     const hashtag = match.slice(1).toLowerCase()
@@ -102,7 +100,7 @@ export const CreateNote = () => {
   }
 
   return (
-    <div className="flex flex-col w-full px-3.5 pt-3 pb-3">
+    <div className="flex flex-col w-full pt-3 pb-3 border-b  px-3.5 border-white-transparent">
       <div className="flex-1 relative">
         {error && (
           <div className="flex right-0 -top-1 absolute">

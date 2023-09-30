@@ -1,8 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 'use client'
 
 import { handleTextareaResize } from '@/functions/text-area-resize'
-import { ProfileMetadata } from '@/types/profile-metadata'
 
 import { useState, ChangeEvent, useContext, useEffect } from 'react'
 import { UploadImage } from './upload-image'
@@ -12,13 +12,7 @@ import { Spinner } from '../spinner'
 import { RELAYS } from '@/constants/relays'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
-import {
-  Event,
-  EventTemplate,
-  SimplePool,
-  finishEvent,
-  getEventHash,
-} from 'nostr-tools'
+import { Event, SimplePool, getEventHash, getSignature } from 'nostr-tools'
 import { firebaseStore } from '@/store/firebase'
 import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'
 
@@ -27,18 +21,18 @@ export const Edit = () => {
   const pool = new SimplePool()
   const { back } = useRouter()
 
-  const { isFetchingMetadata, profile } = useProfile(user?.npub ?? '')
+  const { isFetchingMetadata, profile, handleInvalidate } = useProfile(
+    user?.npub ?? '',
+  )
 
-  const [updateProfile, setUpdateProfile] = useState<ProfileMetadata>({
+  const [updateProfile, setUpdateProfile] = useState({
     name: '',
     picture: '',
     banner: '',
     about: '',
     website: '',
     lud16: '',
-    created_at: 0,
     displayName: '',
-    id: '',
     lud06: '',
     nip05: '',
     username: '',
@@ -46,47 +40,74 @@ export const Edit = () => {
 
   useEffect(() => {
     if (!isFetchingMetadata) {
-      setUpdateProfile(profile)
+      setUpdateProfile({
+        about: profile?.about ?? '',
+        banner: profile?.banner ?? '',
+        name: profile?.name ?? '',
+        picture: profile?.picture ?? '',
+        displayName: profile?.displayName ?? '',
+        lud06: profile?.lud06 ?? '',
+        lud16: profile?.lud16 ?? '',
+        nip05: profile?.nip05 ?? '',
+        username: profile?.username ?? '',
+        website: profile?.website ?? '',
+      })
     }
   }, [isFetchingMetadata])
 
-  const handleUpdateProfile = async () => {
-    if (!user?.priv) {
-      try {
-        const unsignedEvent = {
-          kind: 0,
-          created_at: Math.floor(Date.now() / 1000),
-          tags: [],
-          content: JSON.stringify(updateProfile),
-        }
+  const handleUpdateWithPublicKey = async () => {
+    if (!user?.npub) {
+      toast.error('Erro ao atualizar perfil')
+      return
+    }
 
-        const sig = (await window.nostr.signEvent(unsignedEvent)).sig
-
-        const signedEvent: Event = {
-          ...unsignedEvent,
-          sig,
-          pubkey: user?.npub ?? '',
-          id: getEventHash({ ...unsignedEvent, pubkey: user?.npub ?? '' }),
-        }
-
-        pool.publish(RELAYS, signedEvent)
-
-        toast.success('Perfil atualizado com sucesso')
-
-        back()
-      } catch (error) {
-        toast.error('Você rejeitou a solicitação')
+    try {
+      const unsignedEvent = {
+        kind: 0,
+        created_at: profile.created_at ?? Math.floor(Date.now() / 1000),
+        tags: profile.tags ?? [],
+        content: JSON.stringify(updateProfile),
+        pubkey: user?.npub ?? '',
       }
+
+      const sig = (await window.nostr.signEvent(unsignedEvent)).sig
+
+      const signedEvent: Event = {
+        ...unsignedEvent,
+        sig,
+        id: getEventHash(unsignedEvent),
+      }
+
+      pool.publish(RELAYS, signedEvent)
+
+      toast.success('Perfil atualizado com sucesso')
+
+      handleInvalidate()
+      back()
+    } catch (error) {
+      toast.error('Você rejeitou a solicitação')
+    }
+  }
+
+  const handleUpdateWithPrivateKey = async () => {
+    if (!user?.priv || !user?.npub) {
+      toast.error('Erro ao atualizar perfil')
+      return
     }
 
-    const unsignedEvent: EventTemplate = {
+    const unsignedEvent = {
       kind: 0,
-      created_at: Math.floor(Date.now() / 1000),
-      tags: [],
+      created_at: profile.created_at ?? Math.floor(Date.now() / 1000),
+      tags: profile.tags ?? [],
       content: JSON.stringify(updateProfile),
+      pubkey: user?.npub ?? '',
     }
 
-    const signedEvent = finishEvent(unsignedEvent, user?.priv ?? '')
+    const signedEvent: Event = {
+      ...unsignedEvent,
+      sig: getSignature(unsignedEvent, user?.priv ?? ''),
+      id: getEventHash(unsignedEvent),
+    }
 
     console.log(signedEvent)
 
@@ -99,10 +120,25 @@ export const Edit = () => {
 
       toast.success('Perfil atualizado com sucesso')
 
+      handleInvalidate()
       back()
     } catch (error) {
       toast.error('Você rejeitou a solicitação')
     }
+  }
+
+  const handleUpdateProfile = async () => {
+    if (!profile) {
+      toast.error('Erro ao atualizar perfil')
+      return
+    }
+
+    if (!user?.priv) {
+      handleUpdateWithPublicKey()
+      return
+    }
+
+    handleUpdateWithPrivateKey()
   }
 
   const handleImageChange = async (
@@ -187,15 +223,12 @@ export const Edit = () => {
         </div>
       </div>
 
-      {/* Campo de upload de imagem */}
       <UploadImage
         value={updateProfile.picture ?? ''}
         label="Foto de perfil"
         type="picture"
         handleImageChange={handleImageChange}
       />
-
-      {/* ------------------------- */}
 
       <div className="mt-8">
         <label
@@ -219,16 +252,12 @@ export const Edit = () => {
         ></textarea>
       </div>
 
-      {/* --------------------- */}
-
       <UploadImage
         value={updateProfile.banner ?? ''}
         label="Banner"
         type="banner"
         handleImageChange={handleImageChange}
       />
-
-      {/* ----------------------- */}
 
       <div className="mt-8">
         <label htmlFor="name" className="text-sm text-gray-300 font-semibold">
@@ -276,14 +305,15 @@ export const Edit = () => {
         <p className="text-gray-300">
           <span className="font-bold">Conta registrada em:</span>
           <span className="ml-1">
-            {updateProfile.created_at &&
-              new Date(
-                (updateProfile?.created_at ?? '') * 1000,
-              ).toLocaleDateString('pt-BR', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-              })}
+            {profile.created_at &&
+              new Date((profile?.created_at ?? '') * 1000).toLocaleDateString(
+                'pt-BR',
+                {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                },
+              )}
           </span>
         </p>
       </div>

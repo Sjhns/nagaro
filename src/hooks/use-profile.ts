@@ -77,7 +77,7 @@ export const useProfile = (profileAddress: string) => {
 
   const handleInvalidate = () => {
     setInvalidated(true)
-    setTimeout(() => setInvalidated(false), 1000)
+    // setTimeout(() => setInvalidated(false), 1000)
   }
 
   const { events: metadataEvents, eose: metadataEose } = useSubscribe({
